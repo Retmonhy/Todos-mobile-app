@@ -1,13 +1,16 @@
 import React from 'react';
-import { TurboModuleRegistry } from 'react-native';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Colors, UIStyles } from '../../shared/UIStyles';
+import MainStore from '../../store/main';
 
-export const CreateTodo: React.FC = () => {
-  const [title, setTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
-
+export const CreateTodo: React.FC = ({ route, navigation }) => {
+  const [title, setTitle] = React.useState(route.params?.item.title);
+  const [description, setDescription] = React.useState(
+    route.params?.item.description,
+  );
+  const todos = MainStore;
+  console.log('route = ', route);
   return (
     <View style={UIStyles.container}>
       <TextInput
@@ -25,6 +28,7 @@ export const CreateTodo: React.FC = () => {
         title="Создать задачу"
         onPress={() => {
           todos.addTodo({ title, description });
+          navigation.goBack();
         }}
       />
     </View>

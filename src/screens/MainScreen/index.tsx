@@ -12,9 +12,14 @@ interface Todo {
 
 const MainScreen: React.FC = ({ navigation }) => {
   const todos = MainStore;
-  const renderItem = (item: Todo) => {
+  console.log(todos);
+
+  const renderItem = ({ item }: Todo) => {
+    console.log('item ', item);
     return (
-      <Pressable>
+      <Pressable
+        style={{ backgroundColor: 'transparent' }}
+        onPress={() => navigation.navigate('CreateTodo', item)}>
         <View style={styles.todoWrapper}>
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.text}>{item.description}</Text>
@@ -25,9 +30,10 @@ const MainScreen: React.FC = ({ navigation }) => {
   return (
     <>
       <FlatList
-        contentContainerStyle={UIStyles.container}
+        contentContainerStyle={[UIStyles.container, styles.todoListWrapper]}
         data={todos.todos}
         renderItem={renderItem}
+        keyExtractor={item => item.title + item.description}
       />
       <View>
         <Button
@@ -40,13 +46,19 @@ const MainScreen: React.FC = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  todoListWrapper: {
+    paddingTop: 16,
+    paddingBottom: 100,
+  },
   todoWrapper: {
     borderRadius: 8,
     borderColor: Colors.black333,
     borderWidth: 1,
+    marginVertical: 4,
   },
   text: {
     marginBottom: 8,
+    color: Colors.black333,
   },
 });
 
