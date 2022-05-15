@@ -4,6 +4,9 @@ const UIStyles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
+  todoListWrapper: {
+    paddingVertical: 16,
+  },
 });
 const Colors = {
   black333: '#333',

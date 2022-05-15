@@ -5,12 +5,8 @@ import { Colors, UIStyles } from '../../shared/UIStyles';
 import MainStore from '../../store/main';
 
 export const CreateTodo: React.FC = ({ route, navigation }) => {
-  const [title, setTitle] = React.useState(route.params?.item.title);
-  const [description, setDescription] = React.useState(
-    route.params?.item.description,
-  );
+  const [title, setTitle] = React.useState(route?.params?.item.title || '');
   const todos = MainStore;
-  console.log('route = ', route);
   return (
     <View style={UIStyles.container}>
       <TextInput
@@ -18,16 +14,11 @@ export const CreateTodo: React.FC = ({ route, navigation }) => {
         value={title}
         onChangeText={setTitle}
       />
-      <TextInput
-        style={styles.textInput}
-        value={description}
-        onChangeText={setDescription}
-      />
       <Button
         type="outline"
         title="Создать задачу"
         onPress={() => {
-          todos.addTodo({ title, description });
+          todos.addTodo(title, '#fff');
           navigation.goBack();
         }}
       />

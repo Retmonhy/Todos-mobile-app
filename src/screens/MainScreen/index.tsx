@@ -1,28 +1,22 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { observer } from 'mobx-react';
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Colors, UIStyles } from '../../shared/UIStyles';
-import MainStore from '../../store/main';
+import MainStore, { Todo } from '../../store/main';
 
-interface Todo {
-  title: string;
-  description: string;
-}
-
-const MainScreen: React.FC = ({ navigation }) => {
+const MainScreen: React.FC = observer(({ navigation }) => {
   const todos = MainStore;
-  console.log(todos);
 
-  const renderItem = ({ item }: Todo) => {
-    console.log('item ', item);
+  const renderItem = ({ item }: { item: Todo }) => {
+    console.log('todo = ', item);
+
     return (
       <Pressable
         style={{ backgroundColor: 'transparent' }}
-        onPress={() => navigation.navigate('CreateTodo', item)}>
+        onPress={() => navigation.navigate('EditTodo', { item })}>
         <View style={styles.todoWrapper}>
           <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.text}>{item.description}</Text>
         </View>
       </Pressable>
     );
@@ -30,10 +24,10 @@ const MainScreen: React.FC = ({ navigation }) => {
   return (
     <>
       <FlatList
-        contentContainerStyle={[UIStyles.container, styles.todoListWrapper]}
+        contentContainerStyle={[UIStyles.container, UIStyles.todoListWrapper]}
         data={todos.todos}
         renderItem={renderItem}
-        keyExtractor={item => item.title + item.description}
+        keyExtractor={item => item.id}
       />
       <View>
         <Button
@@ -43,7 +37,7 @@ const MainScreen: React.FC = ({ navigation }) => {
       </View>
     </>
   );
-};
+});
 
 const styles = StyleSheet.create({
   todoListWrapper: {
