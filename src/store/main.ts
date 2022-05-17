@@ -55,14 +55,17 @@ class MainStore {
   removeTodo = (id: string) => {
     this.todos.filter((todo: Todo) => todo.id !== id);
   };
-  editTodo = (id: String, editedTodo: Todo) => {
+  editTodo = (id: string, editedTodo: Todo) => {
+    console.log('editedTodo = ', editedTodo);
+
     this.todos.map((todo: Todo) => {
+      console.log('todos[0] = ', ...todo);
       if (todo.id === id) {
         return {
           ...todo,
-          title: editedTodo.title,
-          color: editedTodo.color,
-          pinned: editedTodo.pinned,
+          title: editedTodo.title || todo.title,
+          color: editedTodo.color || todo.color,
+          pinned: editedTodo.pinned || todo.pinned,
         };
       }
       return todo;

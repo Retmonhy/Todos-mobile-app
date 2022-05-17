@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -13,8 +13,6 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
   const todos = MainStore;
   const todo = route.params?.item;
   const renderItem = (task: Task) => {
-    console.log(task);
-
     return (
       <CheckBox
         checkedIcon="circle-o"
@@ -22,19 +20,26 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
         iconType="material"
         title={task.title}
         checked={task.done}
-        onPress={() => {
+        onIconPress={() => {
           console.log(task.done);
           todos.onCheckboxPress(task);
         }}
+        onPress={() => navigation.navigate('CreateTodo', { task })}
       />
     );
   };
+
   const [taskTitle, setTaskTitle] = React.useState('');
   return (
     <>
       <FlatList
         contentContainerStyle={[UIStyles.container, UIStyles.todoListWrapper]}
-        ListHeaderComponent={<Text>{todo.title}</Text>}
+        ListHeaderComponent={
+          <Pressable
+            onPress={() => navigation.navigate('CreateTodo', { todo })}>
+            <Text>{todo.title}</Text>
+          </Pressable>
+        }
         data={todo.tasks}
         renderItem={({ item }) => renderItem(item)}
       />

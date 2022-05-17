@@ -2,10 +2,12 @@ import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Colors, UIStyles } from '../../shared/UIStyles';
-import MainStore from '../../store/main';
+import MainStore, { Todo } from '../../store/main';
 
 export const CreateTodo: React.FC = ({ route, navigation }) => {
-  const [title, setTitle] = React.useState(route?.params?.item.title || '');
+  const todo: Todo = route?.params?.todo;
+  console.log('todo = ', todo?.title);
+  const [title, setTitle] = React.useState(todo?.title || '');
   const todos = MainStore;
   return (
     <View style={UIStyles.container}>
@@ -18,8 +20,18 @@ export const CreateTodo: React.FC = ({ route, navigation }) => {
         type="outline"
         title="Создать задачу"
         onPress={() => {
-          todos.addTodo(title, '#fff');
+          todo
+            ? todos.editTodo(todo.id, { title })
+            : todos.addTodo(title, '#fff');
           navigation.goBack();
+        }}
+      />
+      <Button
+        title="Удалить"
+        buttonStyle={{ backgroundColor: 'pink' }}
+        onPress={() => {
+          todos.removeTodo(todo?.id);
+          navigation.navigate('Main', {});
         }}
       />
     </View>
