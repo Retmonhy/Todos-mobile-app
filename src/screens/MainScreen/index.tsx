@@ -3,18 +3,18 @@ import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Colors, UIStyles } from '../../shared/UIStyles';
-import MainStore, { Todo } from '../../store/main';
+import MainStore from '../../store/main';
+import { Todo } from '../../store/interfaces';
 
 const MainScreen: React.FC = observer(({ navigation }) => {
-  const todos = MainStore;
+  const todos = MainStore.getTodos();
+  console.log(todos);
 
   const renderItem = ({ item }: { item: Todo }) => {
-    console.log('todo = ', item);
-
     return (
       <Pressable
         style={{ backgroundColor: 'transparent' }}
-        onPress={() => navigation.navigate('EditTodo', { item })}>
+        onPress={() => navigation.navigate('EditTodo', { todo: item })}>
         <View style={styles.todoWrapper}>
           <Text style={styles.text}>{item.title}</Text>
         </View>
@@ -25,7 +25,7 @@ const MainScreen: React.FC = observer(({ navigation }) => {
     <>
       <FlatList
         contentContainerStyle={[UIStyles.container, UIStyles.todoListWrapper]}
-        data={todos.todos}
+        data={todos}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 8,
     color: Colors.black333,
+    padding: 8,
   },
 });
 

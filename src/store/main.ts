@@ -1,23 +1,6 @@
-import { makeAutoObservable, runInAction } from 'mobx';
-export interface Subtask {
-  title: string;
-  id: string;
-  done: boolean;
-}
-export interface Task {
-  title: string;
-  done: boolean;
-  id: string;
-  note: string;
-  subtasks: Subtask[];
-}
-export interface Todo {
-  title: string;
-  id: string;
-  color: string;
-  pinned: boolean;
-  tasks: Task[];
-}
+import { makeAutoObservable, observable, runInAction } from 'mobx';
+import { Task, Todo } from './interfaces';
+
 function TodoConstructor(title: string, color: string): object {
   const todo: Todo = this;
   todo.title = title;
@@ -27,8 +10,8 @@ function TodoConstructor(title: string, color: string): object {
   todo.pinned = false;
   return todo;
 }
-function TaskConstructor(title: string): object {
-  const task: Task = this;
+function TaskConstructor(title: string) {
+  const task = this;
   task.title = title;
   task.id = Date.now().toString();
   task.done = false;
@@ -40,47 +23,39 @@ function TaskConstructor(title: string): object {
 class MainStore {
   todos: Todo[] = [];
   constructor() {
-    makeAutoObservable(this, {});
+    makeAutoObservable(this, false, { deep: true });
   }
-  addTodo = (title: string, color: string) => {
-    // const newTodo: Todo = {
-    //   title: title,
-    //   id: Date.now().toString(),
-    //   tasks: [],
-    //   pinned: false,
-    //   color: color || 'transparent',
-    // };
+  addTodo = (title: string, color: string) =>
     runInAction(() => this.todos.push(new TodoConstructor(title, color)));
-  };
+
   removeTodo = (id: string) => {
     this.todos.filter((todo: Todo) => todo.id !== id);
   };
-  editTodo = (id: string, editedTodo: Todo) => {
-    console.log('editedTodo = ', editedTodo);
+  editTodo = (todo: Todo, editedTodo: Todo) => {
+    console.log('\n');
+    console.log('todos = ', this.todos);
 
-    this.todos.map((todo: Todo) => {
-      console.log('todos[0] = ', ...todo);
-      if (todo.id === id) {
-        return {
-          ...todo,
-          title: editedTodo.title || todo.title,
-          color: editedTodo.color || todo.color,
-          pinned: editedTodo.pinned || todo.pinned,
-        };
-      }
-      return todo;
-    });
+    todo.title = editedTodo.title;
+    console.log('todos after change= ', this.todos);
+    console.log('\n');
+
+    // this.todos.map((todo: Todo) => {
+    //   if (todo.id === id) {
+    //     return Object.assign(todo, {
+    //       title: editedTodo.title || todo.title,
+    //       color: editedTodo.color || todo.color,
+    //       pinned: editedTodo.pinned || todo.pinned,
+    //     });
+    //   }
+    // return todo;
+    // });
   };
+  getTodos() {
+    return this.todos;
+  }
   onCheckboxPress = (task: Task) => (task.done = !task.done);
-  addTask = (todo: Todo, taskTitle: string) => {
-    // const addedTask = {
-    //   title: taskTitle,
-    //   id: Date.now().toString(),
-    //   done: false,
-    //   note: '',
-    //   subtasks: [],
-    // };
+  addTask = (todo: Todo, taskTitle: string) =>
     todo.tasks.push(new TaskConstructor(taskTitle));
-  };
 }
+
 export default new MainStore();

@@ -5,14 +5,15 @@ import { CheckBox } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { UIStyles } from '../../shared/UIStyles';
-import { Todo, Task } from '../../store/main';
+import { Task } from '../../store/interfaces';
 import MainStore from '../../store/main';
 
 export const EditTodo: React.FC = observer(({ route, navigation }) => {
   console.log('route = ', route);
+
   const todos = MainStore;
-  const todo = route.params?.item;
-  const renderItem = (task: Task) => {
+  const todo = route.params?.todo;
+  const renderItem = observer((task: Task) => {
     return (
       <CheckBox
         checkedIcon="circle-o"
@@ -27,7 +28,7 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
         onPress={() => navigation.navigate('CreateTodo', { task })}
       />
     );
-  };
+  });
 
   const [taskTitle, setTaskTitle] = React.useState('');
   return (
@@ -37,10 +38,10 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
         ListHeaderComponent={
           <Pressable
             onPress={() => navigation.navigate('CreateTodo', { todo })}>
-            <Text>{todo.title}</Text>
+            <Text>{todo?.title}</Text>
           </Pressable>
         }
-        data={todo.tasks}
+        data={todo?.tasks}
         renderItem={({ item }) => renderItem(item)}
       />
       <TextInput value={taskTitle} onChangeText={setTaskTitle} />

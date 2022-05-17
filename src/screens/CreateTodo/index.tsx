@@ -20,10 +20,9 @@ export const CreateTodo: React.FC = ({ route, navigation }) => {
         type="outline"
         title="Создать задачу"
         onPress={() => {
-          todo
-            ? todos.editTodo(todo.id, { title })
-            : todos.addTodo(title, '#fff');
-          navigation.goBack();
+          todo ? todos.editTodo(todo, { title }) : todos.addTodo(title, '#fff');
+          navigation.navigate('EditTodo', { todo });
+          // navigation.goBack();
         }}
       />
       <Button
