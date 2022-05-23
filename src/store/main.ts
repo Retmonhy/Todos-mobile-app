@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { Task, Todo } from './interfaces';
 
 function TodoConstructor(title: string, color: string): object {
@@ -23,10 +23,12 @@ function TaskConstructor(title: string) {
 class MainStore {
   todos: Todo[] = [];
   constructor() {
-    makeAutoObservable(this, false, { deep: true });
+    makeAutoObservable(this);
   }
   addTodo = (title: string, color: string) =>
-    runInAction(() => this.todos.push(new TodoConstructor(title, color)));
+    runInAction(() =>
+      this.todos.push(new (TodoConstructor as any)(title, color)),
+    );
 
   removeTodo = (id: string) => {
     this.todos.filter((todo: Todo) => todo.id !== id);
@@ -38,24 +40,10 @@ class MainStore {
     todo.title = editedTodo.title;
     console.log('todos after change= ', this.todos);
     console.log('\n');
-
-    // this.todos.map((todo: Todo) => {
-    //   if (todo.id === id) {
-    //     return Object.assign(todo, {
-    //       title: editedTodo.title || todo.title,
-    //       color: editedTodo.color || todo.color,
-    //       pinned: editedTodo.pinned || todo.pinned,
-    //     });
-    //   }
-    // return todo;
-    // });
   };
-  getTodos() {
-    return this.todos;
-  }
   onCheckboxPress = (task: Task) => (task.done = !task.done);
   addTask = (todo: Todo, taskTitle: string) =>
-    todo.tasks.push(new TaskConstructor(taskTitle));
+    todo.tasks.push(new (TaskConstructor as any)(taskTitle));
 }
 
 export default new MainStore();
