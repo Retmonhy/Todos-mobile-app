@@ -13,7 +13,7 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
 
   const todos = MainStore;
   const todo = route.params?.todo;
-  const renderItem = observer((task: Task) => {
+  const _renderItem = (task: Task) => {
     return (
       <CheckBox
         checkedIcon="circle-o"
@@ -28,7 +28,7 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
         onPress={() => navigation.navigate('CreateTodo', { task })}
       />
     );
-  });
+  };
 
   const [taskTitle, setTaskTitle] = React.useState('');
   return (
@@ -44,7 +44,7 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
           </Pressable>
         }
         data={todo?.tasks}
-        renderItem={({ item }) => renderItem(item)}
+        renderItem={({ item }) => _renderItem(item)}
       />
       <TextInput value={taskTitle} onChangeText={setTaskTitle} />
       <Button

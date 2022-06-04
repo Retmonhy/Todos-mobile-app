@@ -13,13 +13,16 @@ export const MainScreen: React.FC = observer(({ navigation }) => {
 
   console.log(todoStore.todos);
 
-  const renderItem = ({ item }: { item: Todo }) => {
+  const _renderItem = (todo: Todo) => {
     return (
       <Pressable
-        style={{ backgroundColor: 'transparent' }}
-        onPress={() => navigation.navigate('EditTodo', { todo: item })}>
-        <View style={styles.todoWrapper}>
-          <Text style={styles.text}>{item.title}</Text>
+        style={[styles.todoCard]}
+        onPress={() => navigation.navigate('EditTodo', { todo })}>
+        <View style={[styles.todoWrapper]}>
+          <Text style={styles.todoHeader}>{todo.title}</Text>
+          {todo.tasks.map(td => (
+            <Text key={td.id}>O__{td.title}</Text>
+          ))}
         </View>
       </Pressable>
     );
@@ -27,9 +30,9 @@ export const MainScreen: React.FC = observer(({ navigation }) => {
   return (
     <>
       <FlatList
-        contentContainerStyle={[UIStyles.container, UIStyles.todoListWrapper]}
+        contentContainerStyle={[UIStyles.container, styles.todoListWrapper]}
         data={todoStore.todos}
-        renderItem={renderItem}
+        renderItem={({ item }) => _renderItem(item)}
         keyExtractor={item => item.id}
       />
       <View>
@@ -41,17 +44,29 @@ export const MainScreen: React.FC = observer(({ navigation }) => {
     </>
   );
 });
-
+//сделать два столбца. И рендерить новую карточку в тот столбец, который имеет меньшую высоту. Чекать высоту столбца
 const styles = StyleSheet.create({
+  todoCard: {
+    backgroundColor: Colors.white,
+    marginVertical: 10,
+    borderRadius: 5,
+    elevation: 3,
+    minWidth: '48%',
+  },
   todoListWrapper: {
     paddingTop: 16,
     paddingBottom: 100,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    // flex: 1,
   },
   todoWrapper: {
-    borderRadius: 8,
-    borderColor: Colors.black333,
-    borderWidth: 1,
-    marginVertical: 4,
+    padding: 10,
+    marginHorizontal: 4,
+  },
+  todoHeader: {
+    marginBottom: 4,
   },
   text: {
     marginBottom: 8,

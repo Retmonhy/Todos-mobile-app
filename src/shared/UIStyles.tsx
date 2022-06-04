@@ -10,6 +10,7 @@ const UIStyles = StyleSheet.create({
 });
 const Colors = {
   black333: '#333',
+  white: '#fff',
 };
 
 export { UIStyles, Colors };
