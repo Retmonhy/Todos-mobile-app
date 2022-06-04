@@ -26,9 +26,47 @@ class MainStore {
     makeAutoObservable(this);
   }
   addTodo = (title: string, color: string) =>
-    runInAction(() =>
-      this.todos.push(new (TodoConstructor as any)(title, color)),
-    );
+    runInAction(() => {
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+      this.todos.push(new (TodoConstructor as any)(title, color));
+    });
 
   removeTodo = (id: string) => {
     this.todos.filter((todo: Todo) => todo.id !== id);
