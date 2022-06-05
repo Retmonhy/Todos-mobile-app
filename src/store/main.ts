@@ -28,60 +28,20 @@ class MainStore {
   addTodo = (title: string, color: string) =>
     runInAction(() => {
       this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
-      this.todos.push(new (TodoConstructor as any)(title, color));
     });
 
   removeTodo = (id: string) => {
     this.todos.filter((todo: Todo) => todo.id !== id);
   };
-  editTodo = (todo: Todo, editedTodo: Todo) => {
-    console.log('\n');
-    console.log('todos = ', this.todos);
-
-    todo.title = editedTodo.title;
-    console.log('todos after change= ', this.todos);
-    console.log('\n');
+  editTodo = (todo: Todo, title: string) => {
+    todo.title = title;
   };
+
   onCheckboxPress = (task: Task) => (task.done = !task.done);
-  addTask = (todo: Todo, taskTitle: string) =>
+
+  addTask = (todo: Todo, taskTitle: string) => {
     todo.tasks.push(new (TaskConstructor as any)(taskTitle));
+  };
 }
 
 export default new MainStore();

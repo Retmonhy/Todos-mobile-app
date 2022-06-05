@@ -11,6 +11,7 @@ const UIStyles = StyleSheet.create({
 const Colors = {
   black: '#000',
   black333: '#333',
+  gray: 'ccc',
   white: '#fff',
   orange: '#ffac1c',
 };

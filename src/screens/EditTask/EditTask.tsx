@@ -1,15 +1,18 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { PlusButton } from '../../shared/Ui/PlusButton';
 import { Colors, UIStyles } from '../../shared/UIStyles';
 import MainStore, { Todo } from '../../store/main';
 
 export const EditTask: React.FC = ({ route, navigation }) => {
-  console.log('route = ', route);
-
   const todo: Todo = route?.params?.item;
   const [title, setTitle] = React.useState(todo?.title || '');
   const todos = MainStore;
+  const createTask = () => {
+    todos.addTask(todo, title);
+    navigation.goBack();
+  };
   return (
     <View style={UIStyles.container}>
       <TextInput
@@ -17,14 +20,7 @@ export const EditTask: React.FC = ({ route, navigation }) => {
         value={title}
         onChangeText={setTitle}
       />
-      <Button
-        type="outline"
-        title="Создать задачу"
-        onPress={() => {
-          todos.addTodo(title, '#fff');
-          navigation.goBack();
-        }}
-      />
+      <PlusButton onPress={createTask} />
       <Button
         title="Удалить"
         buttonStyle={{ backgroundColor: 'pink' }}

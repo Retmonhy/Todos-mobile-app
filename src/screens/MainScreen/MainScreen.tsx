@@ -1,20 +1,18 @@
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+
 import { useMainContext } from '../../Hooks.tsx/useMainContext';
-import { Svg } from '../../shared/Assests/Svg';
+import { PlusButton } from '../../shared/Ui/PlusButton';
 import { Colors, UIStyles } from '../../shared/UIStyles';
 import { Todo } from '../../store/interfaces';
 
 export const MainScreen: React.FC = observer(({ navigation }) => {
-  //   const todos = MainStore.getTodos();
   const { todoStore } = useMainContext();
-  const [isPress, setPress] = React.useState(false);
-  const [isHidden, setHidden] = React.useState(false);
   const flatListRef = React.createRef();
-  console.log('store = ', todoStore.todos);
 
-  console.log(todoStore.todos);
+  const [isHidden, setHidden] = React.useState(false);
+  const onPressHandler = () => navigation.navigate('CreateTodo');
 
   const _renderItem = (todo: Todo) => {
     return (
@@ -47,43 +45,12 @@ export const MainScreen: React.FC = observer(({ navigation }) => {
           setHidden(false);
         }}
       />
-      <Pressable
-        style={[
-          styles.addButtonContainer,
-          isPress ? styles.buttonPressed : styles.button,
-          isHidden && styles.buttonHidden,
-        ]}
-        onPressIn={() => setPress(true)}
-        onPressOut={() => setPress(false)}
-        onPress={() => navigation.navigate('CreateTodo')}>
-        <Svg.Plus size={35} color={Colors.black} />
-      </Pressable>
+      <PlusButton onPress={onPressHandler} isHidden={isHidden} />
     </>
   );
 });
 //сделать два столбца. И рендерить новую карточку в тот столбец, который имеет меньшую высоту. Чекать высоту столбца
 const styles = StyleSheet.create({
-  addButtonContainer: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 50,
-    height: 50,
-    borderRadius: 30,
-    backgroundColor: Colors.orange,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonHidden: {
-    display: 'none',
-    // transform: {{scale(0)}}
-  },
-  button: {
-    elevation: 5,
-  },
-  buttonPressed: {
-    elevation: 15,
-  },
   todoCard: {
     backgroundColor: Colors.white,
     marginVertical: 10,
