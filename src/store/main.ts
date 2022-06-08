@@ -1,8 +1,9 @@
+/* eslint-disable consistent-this */
 import { makeAutoObservable, runInAction } from 'mobx';
 import { Task, Todo } from './interfaces';
 
-function TodoConstructor(title: string, color: string): object {
-  const todo: Todo = this;
+function TodoConstructor(this: any, title: string, color: string): Todo {
+  const todo = this;
   todo.title = title;
   todo.color = color;
   todo.id = Date.now().toString();
@@ -10,7 +11,7 @@ function TodoConstructor(title: string, color: string): object {
   todo.pinned = false;
   return todo;
 }
-function TaskConstructor(title: string) {
+function TaskConstructor(this: any, title: string) {
   const task = this;
   task.title = title;
   task.id = Date.now().toString();

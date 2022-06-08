@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import {
+  Dimensions,
   FlatList,
   Keyboard,
   Modal,
@@ -15,10 +16,15 @@ import { UIStyles } from '../../shared/UIStyles';
 import { Task } from '../../store/interfaces';
 import MainStore from '../../store/main';
 import { Input } from './components/Input';
+import BottomSheet from 'react-native-gesture-bottom-sheet';
 
 export const EditTodo: React.FC = observer(({ route, navigation }) => {
   const todos = MainStore;
   const todo = route.params?.todo;
+  const bottomSheet = React.useRef();
+  const [screenHeigth, setScreenHeigth] = React.useState(
+    Dimensions.get('window'),
+  );
   const [isVisible, setVisible] = React.useState(false);
 
   const addTask = taskTitle => {
@@ -41,7 +47,13 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
           console.log(task.done);
           todos.onCheckboxPress(task);
         }}
-        onPress={() => navigation.navigate('CreateTodo', { task })}
+        // onPress={() => navigation.navigate('CreateTodo', { task })}
+        onPress={() => {
+          setScreenHeigth(Dimensions.get('window'));
+          console.log('screenHeight', screenHeigth);
+
+          bottomSheet.current.show();
+        }}
       />
     );
   };
@@ -63,6 +75,10 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
       />
 
       <PlusButton onPress={toggleInput} isHidden={isVisible} />
+      {/* <PlusButton
+        onPress={() => bottomSheet.current.show()}
+        isHidden={isVisible}
+      /> */}
 
       <Modal
         animationType="slide"
@@ -82,6 +98,11 @@ export const EditTodo: React.FC = observer(({ route, navigation }) => {
         />
         <Input onPressHandler={addTask} />
       </Modal>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={screenHeigth.height - 20}
+      />
     </>
   );
 });
